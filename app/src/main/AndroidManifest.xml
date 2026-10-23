@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Full package inventory. This app is distributed outside Google Play as a
+         system utility; Play's QUERY_ALL_PACKAGES policy is documented in
+         docs/SECURITY_AND_PRIVACY.md. -->
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <!-- Battery / usage diagnostics (user grants Usage Access in system settings). -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Network diagnostics (read-only connectivity state). No INTERNET permission:
+         the app performs no network I/O by design. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature
+        android:name="android.hardware.cpu.abilist"
+        android:required="false" />
+
+    <application
+        android:name=".EISApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.EIS">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.EIS">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Shizuku binder provider (official integration, protected by
+             INTERACT_ACROSS_USERS_FULL as recommended by the Shizuku API guide). -->
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:multiprocess="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
+        <!-- Shizuku UserService: runs with shell (or root) identity inside a
+             separate process managed by Shizuku. Not exported to other apps. -->
+        <service
+            android:name=".privilege.EisUserService"
+            android:exported="true"
+            android:permission="rikka.shizuku.permission.SHELL" />
+    </application>
+</manifest>

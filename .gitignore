@@ -1,0 +1,26 @@
+# Build
+*.apk
+*.aab
+build/
+app/build/
+.gradle/
+local.properties
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+
+# Signing - never commit keys
+*.jks
+*.keystore
+keystore.properties
+
+# Kotlin incremental caches
+.kotlin/
+
+# Freebuff desktop marker
+.freebuff/
+
+# Local device captures
+screenshots/
